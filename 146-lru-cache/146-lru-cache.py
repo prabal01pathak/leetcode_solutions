@@ -1,31 +1,46 @@
 from collections import OrderedDict
 
+class Node:
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.prev, self.left = None, None
+
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.cache = OrderedDict()
-        self.capacity = capacity
+        self.cache = {}
+        self.cap = capacity
+        self.right, self.left = Node(0, 0), Node(0, 0)
+        self.left.next, self.right.prev = self.right, self.left
         
 
+    # remove node from list
+    def remove(self, node):
+        prev, nxt = node.prev, node.next
+        prev.next, nxt.prev = nxt, prev
+
+    # insert node at right
+    def insert(self, node):
+        prev, nxt = self.right.prev, self.right
+        prev.next = nxt.prev = node
+        node.next, node.prev = nxt, prev
+
     def get(self, key: int) -> int:
-        value = self.cache.get(key, None)
-        if value is None:
-            return -1
-        self.cache.pop(key)
-        self.cache[key] = value
-        return value
+        if key in self.cache:
+            self.remove(self.cache[key])
+            self.insert(self.cache[key])
+            return self.cache[key].val
+        return -1
 
     def put(self, key: int, value: int) -> None:
-        if self.cache.get(key, None) is not None:
-            self.cache.pop(key)
-            self.cache[key] = value
-        elif self.capacity != len(self.cache):
-            self.cache[key] = value
-        else:
-            self.cache.popitem(0)
-            self.cache[key] = value
+        if key in self.cache:
+            self.remove(self.cache[key])
+        self.cache[key] = Node(key, value)
+        self.insert(self.cache[key])
 
-# Your LRUCache object will be instantiated and called as such:
-# obj = LRUCache(capacity)
-# param_1 = obj.get(key)
-# obj.put(key,value)
+        if len(self.cache) > self.cap:
+            # remove from the list and delete the LRU from hashmap
+            lru = self.left.next
+            self.remove(lru)
+            del self.cache[lru.key]
