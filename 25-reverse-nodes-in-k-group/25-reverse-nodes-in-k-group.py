@@ -23,20 +23,20 @@ class Solution:
             if count == k:
                 if cur is None:
                     return dummy.next
-                node = ListNode(cur.val)
+                node = cur
+                cur = cur.next
                 prev = tail
                 node.next = prev.next
                 prev.next = node
                 tail = node
-                cur = cur.next
                 count = 1
                 pairs_comp += 1
             else:
                 count += 1
-                node = ListNode(cur.val)
+                node = cur
+                cur = cur.next
                 node.next = prev.next
                 prev.next = node
-                cur = cur.next
                 if tail == dummy:
                     tail = node
         tail.next = cur
