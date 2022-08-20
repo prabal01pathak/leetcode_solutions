@@ -16,8 +16,8 @@ class Solution:
         pairs = l//k
         pairs_comp = 0
         count = 0
-        dummy = ListNode(0)
-        cur = head
+        dummy = ListNode(0,head)
+        cur = dummy.next
         prev, tail = dummy, dummy
         while pairs_comp != pairs:
             if count == k:
@@ -39,6 +39,7 @@ class Solution:
                 prev.next = node
                 if tail == dummy:
                     tail = node
+                    tail.next = None
         tail.next = cur
         return dummy.next
             
