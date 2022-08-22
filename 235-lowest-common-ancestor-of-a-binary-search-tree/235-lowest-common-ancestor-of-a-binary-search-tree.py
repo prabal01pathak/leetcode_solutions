@@ -7,14 +7,15 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        stack = [ root ]
         p, q = min(p.val, q.val), max(p.val, q.val)
-        while stack:
-            node = stack.pop()
-            if p <= node.val <= q:
+        self.n = None
+        def helper(node):
+            if not node:
+                return None
+            if p <= node.val <=q and self.n is None:
+                self.n = node
                 return node
-            if node.left:
-                stack.append(node.left)
-            if node.right:
-                stack.append(node.right)
-        return node
+            helper(node.left)
+            helper(node.right)
+        helper(root)
+        return self.n
