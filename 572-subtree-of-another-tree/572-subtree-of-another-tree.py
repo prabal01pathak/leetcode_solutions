@@ -6,17 +6,12 @@
 #         self.right = right
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        stack = [ root ]
-        while stack:
-            node = stack.pop()
-            if node.val == subRoot.val:
-                if self.checkSubtree(node, subRoot):
-                    return True
-            if node.right:
-                stack.append(node.right)
-            if node.left:
-                stack.append(node.left)
-        return False
+        if root is None:
+            return False
+        if root.val == subRoot.val:
+            if self.checkSubtree(root, subRoot):
+                return True
+        return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
     
     def checkSubtree(self, root, subRoot):
         if root is None and subRoot is None:
