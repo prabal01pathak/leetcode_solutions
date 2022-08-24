@@ -8,21 +8,12 @@ from collections import deque
 
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        if not root:
-            return []
-        queue = deque([ root ])
-        res = []
-        while queue:
-            res.append(queue[-1].val)
-            queue = self.get_nodes(queue)
-        return res
-    
-    def get_nodes(self, queue):
-        res = deque([])
-        for i in queue:
-            if i.left:
-                res.append(i.left)
-            if i.right:
-                res.append(i.right)
-        return res
-        
+        def collect(node, depth):
+            if node:
+                if depth == len(view):
+                    view.append(node.val)
+                collect(node.right, depth+1)
+                collect(node.left, depth+1)
+        view = []
+        collect(root, 0)
+        return view
