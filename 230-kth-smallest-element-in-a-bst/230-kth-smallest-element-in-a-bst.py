@@ -9,12 +9,11 @@ class Solution:
         def traverseTree(node):
             if not node:
                 return None
-            view.append(node.val)
             traverseTree(node.left)
+            view.append(node.val)
             traverseTree(node.right)
             
         view = []
         traverseTree(root)
-        view.sort()
         return view[k-1]
         
