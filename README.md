@@ -1,2 +1,2 @@
 # leetcode_solutions
-Collection of LeetCode questions to ace the coding interview! - Created using [LeetHub](https://github.com/QasimWani/LeetHub)
+Leetcode ID: [Prabal Pathak](https://leetcode.com/pro-kid)
