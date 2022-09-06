@@ -11,10 +11,14 @@ class Solution:
         key = list(h.keys())
         heapq.heapify(key)
         res = []
+        done = 0
         for i in range(k):
-            if len(key) == 0:
+            if done == k:
                 break
             v = heapq.heappop(key)
-            res.extend(h[v])
+            points = h[v]
+            for point in points:
+                done += 1
+                res.append(point)
         return res[:k]
         
