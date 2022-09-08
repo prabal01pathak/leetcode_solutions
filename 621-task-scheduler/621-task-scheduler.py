@@ -3,12 +3,10 @@ import heapq
 
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        count = {}
+        count = Counter(tasks)
         queue = deque()
         time = 0
-        for t in tasks:
-            count[t] = count.get(t, 0) - 1
-        count = [i for i in count.values()]
+        count = [-i for i in count.values()]
         print(count)
         heapq.heapify(count)
         while len(queue) > 0 or len(count) > 0:
