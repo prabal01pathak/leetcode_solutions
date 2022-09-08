@@ -8,7 +8,7 @@ class Solution:
         time = 0
         for t in tasks:
             count[t] = count.get(t, 0) - 1
-        count = [i for i in count.values() if i!=0]
+        count = [i for i in count.values()]
         print(count)
         heapq.heapify(count)
         while len(queue) > 0 or len(count) > 0:
