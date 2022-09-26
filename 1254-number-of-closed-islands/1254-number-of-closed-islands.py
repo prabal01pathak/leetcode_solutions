@@ -1,14 +1,15 @@
 from collections import deque
+from itertools import product
 
 class Solution:
     def closedIsland(self, grid: List[List[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
         res = 0
         self.hs = set()
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] == 0 and (i, j) not in self.hs:
-                    b = self.dfs(grid, i, j)
-                    res += 1 if b else 0
+        for row, col in product(range(rows), range(cols)):
+            if grid[row][col] == 0 and (row, col) not in self.hs:
+                b = self.dfs(grid, row, col)
+                res += 1 if b else 0
         return res
 
     def dfs(self, grid, i, j):
