@@ -2,34 +2,15 @@ from collections import deque
 from itertools import product
 
 class Solution:
-    def numEnclaves(self, grid: List[List[int]]) -> int:
-        rows, cols = len(grid), len(grid[0])
-        visited: set = set()
-            
-        def bfs(r: int, c: int) -> int:
-            queue = deque([ (r, c) ])
-            count = 0
-            if_count = True
-            while queue:
-                x, y = queue.popleft()
-                if (x, y) in visited:
-                    continue
-                visited.add((x, y))
-                if grid[x][y] == 1:
-                    count += 1
-                    print("X: ", x, "Y: ", y)
-                    if (x == 0 or x == rows -1 or y == 0 or y == cols -1):
-                        if_count = False
-                    print("X: ", x, "Y: ", y)
-                    if x > 0: queue.append((x-1, y))
-                    if x < rows - 1: queue.append((x+1, y))
-                    if y > 0: queue.append((x, y-1))
-                    if y < cols - 1: queue.append((x, y+1))
-            return count if if_count else 0
-        
-        res: int = 0
-        for row, col in product(range(rows), range(cols)):
-            if grid[row][col] == 1 and (row, col) not in visited:
-                res += bfs(row, col)
-                print("res: ", res, "xy: ", (row, col))
-        return res
+    def numEnclaves(self, A: List[List[int]]) -> int:
+        def dfs(i, j):
+            A[i][j] = 0
+            for x, y in (i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1):
+                if 0 <= x < m and 0 <= y < n and A[x][y]:
+                    dfs(x, y)
+        m, n = len(A), len(A[0])
+        for i in range(m):
+            for j in range(n):
+                if A[i][j] == 1 and (i == 0 or j == 0 or i == m - 1 or j == n - 1):
+                    dfs(i, j)
+        return sum(sum(row) for row in A)
